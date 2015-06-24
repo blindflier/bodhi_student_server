@@ -1,0 +1,30 @@
+{
+  "name": "bodhi-student-server",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bluebird": "^2.9.16",
+    "co-body": "^1.1.0",
+    "globby": "^1.2.0",
+    "jsonwebtoken": "^5.0.0",
+    "koa": "^0.18.1",
+    "koa-body-parser": "^1.1.1",
+    "koa-logger": "^1.2.2",
+    "koa-router": "^4.2.0",
+    "lodash": "^3.6.0",
+    "mysql": "^2.6.2",
+    "sequelize": "^2.1.0",
+    "yargs": "^3.9.0"
+  },
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "gulp": "^3.8.11",
+    "gulp-livereload": "^3.8.0",
+    "gulp-mocha": "^2.0.0",
+    "gulp-nodemon": "^2.0.2",
+    "supertest": "^0.15.0"
+  }
+}

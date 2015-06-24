@@ -1,0 +1,34 @@
+var koa = require('koa');
+var app = koa();
+var config = require('./util/config');
+var Sequelize = require('sequelize');
+
+app.config = config;
+app.db = new Sequelize(config.db, {
+    underscored: true,
+    //logging: process.NODE_ENV === 'test',
+    pool: process.NODE_ENV !== 'test',
+});
+app.util = {
+    crypto: require('./util/crypto-helper')
+};
+
+module.exports = app;
+
+//配置logger
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    var logger = require('koa-logger');
+    //console.log('starting logger...');
+    app.use(logger());
+}
+
+//载入模块
+var loadModule = require('./util/load-module');
+
+var modules = [ 'request-parse', 'system', 'basic-info'];
+var mpm = [];
+modules.forEach(function(m) {
+    mpm.push(loadModule(app, config.root + '/modules/' + m));
+});
+
+Promise.all(mpm);
