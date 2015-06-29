@@ -15,6 +15,7 @@ Helper.prototype.create = function(router, model) {
         var options = {};
         self.emit('create', options, this.data);
         var c = yield model.create(this.data, options);
+        self.emit('afterCreate', c,options,this.data);
         this.body = {
             success: true,
             data: c

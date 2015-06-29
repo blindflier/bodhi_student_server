@@ -225,11 +225,11 @@ describe('Student Controller', function() {
       });
     });
 
-    it('should update student qq', function(done) {
+    it('should update student email', function(done) {
       var id = fixtures.valid_students[0].id;
       request(app.listen()).put('/api/students/' + id)
         .send({
-          qq: '33333'
+          email: '33333@qq.com'
         })
         .expect(200)
         .end(function(err, res) {
@@ -242,7 +242,8 @@ describe('Student Controller', function() {
               id: id
             }
           }).then(function(s) {
-            expect(s.qq).to.equal('33333');
+            //console.log(s);
+            expect(s.email).to.equal('33333@qq.com');
             done();
           });
 

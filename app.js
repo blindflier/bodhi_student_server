@@ -10,8 +10,10 @@ app.db = new Sequelize(config.db, {
     pool: process.NODE_ENV !== 'test',
 });
 app.util = {
-    crypto: require('./util/crypto-helper')
+    crypto: require('./util/crypto-helper'),
+    misc: require('./util/misc')
 };
+
 
 module.exports = app;
 
@@ -25,7 +27,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 //载入模块
 var loadModule = require('./util/load-module');
 
-var modules = [ 'request-parse', 'system', 'basic-info'];
+var modules = ['error','request-parse', 'system', 'basic-info'];
 var mpm = [];
 modules.forEach(function(m) {
     mpm.push(loadModule(app, config.root + '/modules/' + m));

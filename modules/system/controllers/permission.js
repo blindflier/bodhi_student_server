@@ -11,6 +11,7 @@ module.exports = function(app) {
 
    helper.on('read',function(options, data){
     if (data.search){
+        data.search = data.search.toUpperCase()
         options.where = options.where || {};
         options.where.$or = [{
           'name':  {'$like': '%'+data.search+'%'}
