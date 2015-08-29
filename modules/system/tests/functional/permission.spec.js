@@ -8,13 +8,13 @@ var expect = require('chai').expect;
 
 var Permission = require('../../models/permission')(app);
 var permissions = require('../fixtures/permission');
-
+var users = require('../fixtures/users');
 
 
 var _ = require('lodash');
 
 var request = require('supertest');
-
+var token;
 
 describe('Permission Controller', function() {
 
@@ -28,9 +28,23 @@ describe('Permission Controller', function() {
                     })
             })
            
-
         .then(function() {
-            done();
+             return Permission.bulkCreate(permissions);
+        })    
+        .then(function() {
+           request(app.listen()).get('/api/token')
+                .send(users[0])
+                .expect(200)
+                .end(function(err, res) {
+                    console.log(err);
+                    if (err)
+                        throw err;
+                    token = res.body.token.token;
+                    console.log(token);
+                    expect(res.body.success).to.be.true;
+
+                    done();
+                });
         });
 
     });
@@ -72,6 +86,7 @@ describe('Permission Controller', function() {
                 .send({
                     limit: 10
                 })
+                .set('jwt-token',token)
                 .expect(200)
                 .end(function(err, res) {
                     if (err)
@@ -85,7 +100,7 @@ describe('Permission Controller', function() {
     });
 
 
-    describe('destroy permission', function() {
+    xdescribe('destroy permission', function() {
         before(function(done) {
             Permission.destroy({truncate:true})
             .then(function(){

@@ -6,6 +6,7 @@ module.exports = function(app, path) {
   if (fs.existsSync(path + '.js')) {
     return  require(path + '.js')(app);
   }
+
   if ((fs.existsSync(path + '/index.js'))) {
     return   require(path + '.js')(app);
   }

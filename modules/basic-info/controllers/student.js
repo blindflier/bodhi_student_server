@@ -8,7 +8,7 @@ module.exports = function(app) {
     var Grade = require('../models/grade')(app);
 
     var ControllerHelper = require(app.config.root + '/util/controller_helper');
-    var helper = new ControllerHelper();
+    var helper = new ControllerHelper(app,router,Student);
     helper.on('read', function(options, data) {
         options.where = options.where || {};
         options.include = [{
@@ -41,7 +41,7 @@ module.exports = function(app) {
         }
     });
 
-    helper.crud(router, Student);
+    helper.crud([]);
 
     return router;
 };

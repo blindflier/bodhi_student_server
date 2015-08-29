@@ -2,6 +2,9 @@ var valid_students = [{
   id: 1,
   student_id: '00860025201306300001',
   
+  login_name: 'AAA',
+  password: '123456',
+
   grade_id: 1,
   state: 0,
 
@@ -18,6 +21,8 @@ var valid_students = [{
 }, {
   id:2,
   student_id: '00860025201306300002',
+  login_name: 'BBB',
+  password: '123456',
 
   grade_id: 2,
   state: 0,

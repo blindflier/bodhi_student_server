@@ -25,6 +25,7 @@ module.exports = function(app) {
       allowNull: false,
       unique: 'city-seq'
     }
+
   }, {
     freezeTableName: true,
     underscored: true

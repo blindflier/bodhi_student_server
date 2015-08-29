@@ -7,7 +7,7 @@ module.exports = function(app) {
   var Permission = require('../models/permission')(app);
   
  var ControllerHelper =  require(app.config.root + '/util/controller_helper');
- var helper = new ControllerHelper();
+ var helper = new ControllerHelper(app,router,Permission);
 
    helper.on('read',function(options, data){
     if (data.search){
@@ -20,7 +20,7 @@ module.exports = function(app) {
         }];
       }
     });
-  helper.crud(router,Permission);
+  helper.crud([]);
 
   return router;
 };

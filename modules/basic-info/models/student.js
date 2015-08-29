@@ -12,14 +12,19 @@ module.exports = function(app) {
       allowNull: false,
       unqiue: true
     },
-    
+   
+    password: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+
     grade_id: {
       type: Sequelize.INTEGER //就读班级
     },
 
     state: {
       type: Sequelize.INTEGER,
-      /* 0:正常 1:休学*/
+      /* 0:正常 1:休学 2:退学*/
       defaultValue: 0
     },
     name: {
@@ -34,7 +39,7 @@ module.exports = function(app) {
     }, //female: false , male: true,
 
     phone: Sequelize.STRING,
-
+  
     email: {
       type: Sequelize.STRING
     },

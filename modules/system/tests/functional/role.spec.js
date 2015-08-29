@@ -21,7 +21,7 @@ var roles = require('../fixtures/roles');
 var _ = require('lodash');
 
 var request = require('supertest');
-
+var token;
 
 describe('Role Controller', function() {
 
@@ -47,13 +47,24 @@ describe('Role Controller', function() {
             })
             .then(function() {
                 return Promise.all([User.bulkCreate(users),
-                    Permission.bulkCreate(permissions)
-
+                    Permission.bulkCreate(permissions),
+                    Role.bulkCreate(roles)
                 ]);
             })
 
         .then(function() {
-            done();
+            request(app.listen()).get('/api/token')
+                .send(users[0])
+                .expect(200)
+                .end(function(err, res) {
+                    console.log(err);
+                    if (err)
+                        throw err;
+                    token = res.body.token.token;
+                    expect(res.body.success).to.be.true;
+
+                    done();
+                });
         });
 
     });
@@ -67,6 +78,7 @@ describe('Role Controller', function() {
             it('should add role success ' + (++i), function(done) {
                 request(app.listen()).post('/api/roles')
                     .send(r)
+                    .set('jwt-token',token)
                     .expect(200)
                     .end(function(err, res) {
                         if (err)

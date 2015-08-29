@@ -7,7 +7,7 @@ module.exports = function(app) {
     var Grade = require('../models/grade')(app);
 
     var ControllerHelper = require(app.config.root + '/util/controller_helper');
-    var helper = new ControllerHelper();
+    var helper = new ControllerHelper(app,router,Grade);
 
     helper.on('read', function(options, data) {
         if (data.city && data.city != '所有') {
@@ -17,7 +17,7 @@ module.exports = function(app) {
             };
         }
     });
-    helper.crud(router, Grade);
+    helper.crud([]);
 
     return router;
 };

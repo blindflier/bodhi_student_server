@@ -19,7 +19,9 @@ gulp.task('develop', function() {
 gulp.task('mocha', function() {
   process.env.NODE_ENV = 'test';
   process.env.PORT=8001;
-  return gulp.src([
+  
+  gulp.src([
+    'modules/tests/prepare.js',
     'modules/**/*.spec.js'
   ], {
     read: false

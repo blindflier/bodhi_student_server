@@ -31,7 +31,18 @@ describe('Grade Controller', function() {
             //     return app.db.query('SET FOREIGN_KEY_CHECKS = 1');
             // })
             .then(function() {
-                done();
+                request(app.listen()).get('/api/token?admin=1&username=admin&password=88888888')
+                  
+                    .expect(200)
+                    .end(function(err, res) {
+                        console.log(err);
+                        if (err)
+                            throw err;
+                        console.log(res.body);
+                        expect(res.body.success).to.be.true;
+                        expect(res.body.data).to.be.exist;
+                        done();
+                    });
             });
 
     });

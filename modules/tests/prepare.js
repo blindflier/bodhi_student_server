@@ -1,14 +1,14 @@
 process.env.NODE_ENV = 'test';
 
-var app = require('../../../../app');
+var app = require('../app');
 
 //var BBPromise = require('bluebird');
 
 var should = require('chai').should();
 var expect = require('chai').expect;
 
-var User = require('../../models/user')(app);
-var users = require('../fixtures/users');
+var User = require('system/models/user')(app);
+
 
 var Role = require('../../models/Role')(app);
 var roles = require('../fixtures/roles');

@@ -30,9 +30,12 @@ module.exports = function(app) {
                     salt = app.util.crypto.randomString(6);
                     this.setDataValue('salt', salt);
                 }
+                var hashed_password = app.util.crypto.makeHashedPassword(val, salt);
                 this.setDataValue('hashed_password',
-                    app.util.crypto.makeHashedPassword(val, salt)
+                    hashed_password
                 );
+                //console.log(this.dataValues);
+                //console.log(this._previousDataValues);
             }
         }
     }, {

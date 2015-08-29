@@ -15,6 +15,8 @@ app.util = {
 };
 
 
+
+
 module.exports = app;
 
 //配置logger
@@ -27,7 +29,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 //载入模块
 var loadModule = require('./util/load-module');
 
-var modules = ['error','request-parse', 'system', 'basic-info'];
+var modules = ['authorize','error','request-parse', 'system','study','basic-info'];
 var mpm = [];
 modules.forEach(function(m) {
     mpm.push(loadModule(app, config.root + '/modules/' + m));
