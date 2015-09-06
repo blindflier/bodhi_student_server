@@ -1,8 +1,7 @@
 var valid_students = [{
-  id: 1,
-  student_id: '00860025201306300001',
+  student_number: '10860025201306300001',
   
-  login_name: 'AAA',
+  username: 'aaa',
   password: '123456',
 
   grade_id: 1,
@@ -19,9 +18,8 @@ var valid_students = [{
   phone: '13951999999'
 
 }, {
-  id:2,
-  student_id: '00860025201306300002',
-  login_name: 'BBB',
+  student_number: '10860025201306300002',
+  username: 'bbb',
   password: '123456',
 
   grade_id: 2,

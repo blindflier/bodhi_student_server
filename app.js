@@ -14,8 +14,12 @@ app.util = {
     misc: require('./util/misc')
 };
 
-
-
+app.permissions = {};
+app.addPermissions = function(permissions){
+   permissions.forEach(function(p){
+      
+   });
+};
 
 module.exports = app;
 

@@ -4,23 +4,28 @@ var router = require('koa-router')();
 
 module.exports = function(app) {
 
-  var Permission = require('../models/permission')(app);
-  
- var ControllerHelper =  require(app.config.root + '/util/controller_helper');
- var helper = new ControllerHelper(app,router,Permission);
+    var Permission = require('../models/permission')(app);
 
-   helper.on('read',function(options, data){
-    if (data.search){
-        data.search = data.search.toUpperCase()
-        options.where = options.where || {};
-        options.where.$or = [{
-          'name':  {'$like': '%'+data.search+'%'}
-        },{
-          'code':  {'$like': '%'+data.search+'%'}
-        }];
-      }
+    var ControllerHelper = require(app.config.root + '/util/controller_helper');
+    var helper = new ControllerHelper(app, router, Permission);
+
+    helper.on('read', function(options, data) {
+        if (data.search) {
+            data.search = data.search.toUpperCase()
+            options.where = options.where || {};
+            options.where.$or = [{
+                'name': {
+                    '$like': '%' + data.search + '%'
+                }
+            }, {
+                'code': {
+                    '$like': '%' + data.search + '%'
+                }
+            }];
+        }
     });
-  helper.crud([]);
-
-  return router;
+    helper.crud({
+        'default': ['SUPER_ADMIN']
+    });
+    return router;
 };

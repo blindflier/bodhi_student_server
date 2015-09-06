@@ -3,7 +3,6 @@ module.exports = function(app) {
     var model_name = 'checkin';
 
     var Course = require('./course')(app);
-    var Gongxiu = require('./gongxiu')(app);
     var Student = require('../../basic-info/models/student')(app);
     var Grade = require('../../basic-info/models/grade')(app);
 
@@ -27,9 +26,6 @@ module.exports = function(app) {
 
     Checkin.belongsTo(Student);
     Student.hasMany(Checkin);
-
-    Checkin.belongsTo(Gongxiu);
-    Gongxiu.hasMany(Checkin);
 
 
     return Checkin;

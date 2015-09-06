@@ -1,6 +1,6 @@
 module.exports = function(app) {
   var Sequelize = require('sequelize');
-  var model_name = 'users_roles';
+  var model_name = 'students_roles';
 
   if (app.db.isDefined(model_name))
     return app.db.model(model_name);

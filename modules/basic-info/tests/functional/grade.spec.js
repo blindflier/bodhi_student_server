@@ -2,7 +2,6 @@ process.env.NODE_ENV = 'test';
 
 var app = require('../../../../app');
 
-//var BBPromise = require('bluebird');
 
 var should = require('chai').should();
 var expect = require('chai').expect;
@@ -16,35 +15,28 @@ var _ = require('lodash');
 var request = require('supertest');
 var Sequelize = require('sequelize');
 
+var token = app.util.misc.createToken('admin', 1, app.config.secretKey);
+
+var badtoken = app.util.misc.createToken('student', 1, app.config.secretKey);
+
+
+
 describe('Grade Controller', function() {
 
 
     before(function(done) {
-
         app.db.query('SET FOREIGN_KEY_CHECKS = 0')
             .then(function() {
                 return Grade.sync({
                     force: true
                 });
             })
-            // .then(function() {
-            //     return app.db.query('SET FOREIGN_KEY_CHECKS = 1');
-            // })
             .then(function() {
-                request(app.listen()).get('/api/token?admin=1&username=admin&password=88888888')
-                  
-                    .expect(200)
-                    .end(function(err, res) {
-                        console.log(err);
-                        if (err)
-                            throw err;
-                        console.log(res.body);
-                        expect(res.body.success).to.be.true;
-                        expect(res.body.data).to.be.exist;
-                        done();
-                    });
+                return require('../../../system/tests/fixtures/prepare_permission')();
+            })
+            .then(function() {
+                done();
             });
-
     });
 
     // after(function(done) {
@@ -72,6 +64,7 @@ describe('Grade Controller', function() {
             //  console.log(c);
             it('should create valid class ' + (++i), function(done) {
                 request(app.listen()).post('/api/grades')
+                    .set('jwt-token', token)
                     .send(c)
                     .expect(200)
                     .end(function(err, res) {
@@ -83,6 +76,20 @@ describe('Grade Controller', function() {
                         done();
                     });
             });
+
+            it('should not create valid class ' + i + ' with bad token', function(done) {
+                request(app.listen()).post('/api/grades')
+                    .set('jwt-token', badtoken)
+                    .send(c)
+                    .expect(200)
+                    .end(function(err, res) {
+                        if (err)
+                            throw err;
+                        console.log(res.body);
+                        done();
+                    });
+            });
+
         });
     });
 
@@ -104,6 +111,7 @@ describe('Grade Controller', function() {
 
         it('should read all grades', function(done) {
             request(app.listen()).get('/api/grades')
+                .set('jwt-token', token)
                 .send({
                     limit: 10
                 })
@@ -121,6 +129,7 @@ describe('Grade Controller', function() {
 
         it('should read grades in 合肥', function(done) {
             request(app.listen()).get('/api/grades')
+                .set('jwt-token', token)
                 .send({
                     city: '合肥',
                     limit: 5
@@ -139,6 +148,7 @@ describe('Grade Controller', function() {
 
         it('should read all grades skip 1 and limit 2', function(done) {
             request(app.listen()).get('/api/grades')
+                .set('jwt-token', token)
                 .send({
                     offset: 1,
                     limit: 2
@@ -175,6 +185,7 @@ describe('Grade Controller', function() {
         grades.valid_grades.forEach(function(c) {
             it('should remove grades ' + c.id, function(done) {
                 request(app.listen()).delete('/api/grades/' + c.id)
+                    .set('jwt-token', token)
                     .expect(200)
                     .end(function(err, res) {
                         if (err)
@@ -211,6 +222,7 @@ describe('Grade Controller', function() {
             it('should update grades ' + c.id, function(done) {
                 request(app.listen()).put('/api/grades/' + c.id)
                     .expect(200)
+                    .set('jwt-token', token)
                     .send({
                         seq: cc.seq,
                         code: cc.code

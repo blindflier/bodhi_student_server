@@ -7,43 +7,39 @@ var app = require('../../../../app');
 var should = require('chai').should();
 var expect = require('chai').expect;
 
-var User = require('../../models/user')(app);
-var users = require('../fixtures/users');
+var Student = require('../../../basic-info/models/student')(app);
+var students = require('../fixtures/students');
 
 var Role = require('../../models/Role')(app);
 var roles = require('../fixtures/roles');
 
 
 var Permission = require('../../models/permission')(app);
-var permissions = require('../fixtures/permission');
+var permissions = require('../fixtures/permissions');
 
-var UsersRoles = require('../../models/user_role')(app);
+var StudentsRoles = require('../../models/student_role')(app);
 var RolesPermissions = require('../../models/role_permission')(app);
 
 
 var _ = require('lodash');
 
-var request = require('supertest');
 
 
-describe('User Role Permission assoication', function() {
+describe('Student Role Permission assoication', function() {
 
 
-  before(function(done) {
-
- 
-    
+  before(function(done) {    
     app.db.query('SET FOREIGN_KEY_CHECKS = 0')
       .then(function() {
         return Promise.all([
-          User.sync({
+          Student.sync({
             force: true
           }), Permission.sync({
             force: true
           }), Role.sync({
             force: true
           }),
-          UsersRoles.sync({
+          StudentsRoles.sync({
             force: true
           }), RolesPermissions.sync({
             force: true
@@ -51,7 +47,7 @@ describe('User Role Permission assoication', function() {
         ]);
       })
       .then(function() {
-        return Promise.all([User.bulkCreate(users),
+        return Promise.all([Student.bulkCreate(students),
           Permission.bulkCreate(permissions),
           Role.bulkCreate(roles)
         ]);
@@ -88,23 +84,23 @@ describe('User Role Permission assoication', function() {
            .then(function(p){    
             expect(p.length).to.equal(permissions.length);  
              done();  
-           })
+           });
         });
 
     });
 
 
-    it('user should associate role', function(done) {
-        var user;
+    it('student should associate role', function(done) {
+        var student;
         Role.findAll()
         .then(function(roles){
-           User.findOne({name:'a'})
-           .then(function(u){
-                user = u;
-               return u.addRoles(roles);
+           Student.findOne({id:1})
+           .then(function(s){
+                student = s;
+               return student.addRoles(roles);
            })
            .then(function(){
-              return user.getPermissions();
+              return student.getPermissions();
            })
            .then(function(p){
                //console.log(p);

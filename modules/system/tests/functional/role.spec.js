@@ -6,14 +6,14 @@ var expect = require('chai').expect;
 
 
 
-var User = require('../../models/user')(app);
+var Student = require('../../../basic-info/models/student')(app);
 var Permission = require('../../models/permission')(app);
 var Role = require('../../models/role')(app);
-var UsersRoles = require('../../models/user_role')(app);
+var StudentsRoles = require('../../models/student_role')(app);
 var RolesPermissions = require('../../models/role_permission')(app);
 
-var users = require('../fixtures/users');
-var permissions = require('../fixtures/permission');
+var students = require('../fixtures/students');
+var permissions = require('../fixtures/permissions');
 var roles = require('../fixtures/roles');
 
 
@@ -21,7 +21,9 @@ var roles = require('../fixtures/roles');
 var _ = require('lodash');
 
 var request = require('supertest');
-var token;
+
+var token = app.util.misc.createToken(students[0].username, 1, app.config.secretKey);
+
 
 describe('Role Controller', function() {
 
@@ -31,14 +33,14 @@ describe('Role Controller', function() {
         app.db.query('SET FOREIGN_KEY_CHECKS = 0')
             .then(function() {
                 return Promise.all([
-                    User.sync({
+                    Student.sync({
                         force: true
                     }), Permission.sync({
                         force: true
                     }), Role.sync({
                         force: true
                     }),
-                    UsersRoles.sync({
+                    StudentsRoles.sync({
                         force: true
                     }), RolesPermissions.sync({
                         force: true
@@ -46,39 +48,21 @@ describe('Role Controller', function() {
                 ]);
             })
             .then(function() {
-                return Promise.all([User.bulkCreate(users),
-                    Permission.bulkCreate(permissions),
-                    Role.bulkCreate(roles)
-                ]);
-            })
-
-        .then(function() {
-            request(app.listen()).get('/api/token')
-                .send(users[0])
-                .expect(200)
-                .end(function(err, res) {
-                    console.log(err);
-                    if (err)
-                        throw err;
-                    token = res.body.token.token;
-                    expect(res.body.success).to.be.true;
-
-                    done();
-                });
-        });
+                done();
+            });
 
     });
 
 
 
 
-    describe('create role with users and permissions', function() {
+    describe('create role', function() {
         var i = 0;
         roles.forEach(function(r) {
             it('should add role success ' + (++i), function(done) {
                 request(app.listen()).post('/api/roles')
                     .send(r)
-                    .set('jwt-token',token)
+                    .set('jwt-token', token)
                     .expect(200)
                     .end(function(err, res) {
                         if (err)
@@ -91,62 +75,95 @@ describe('Role Controller', function() {
         });
     });
 
-    xdescribe('get role', function() {
+    describe('get roles', function() {
         before(function(done) {
-            Permission.destroy({
+            Role.destroy({
                     truncate: true
                 })
                 .then(function() {
-                    Permission.bulkCreate(permissions).then(function() {
+                    Role.bulkCreate(roles).then(function() {
                         done();
                     });
                 })
         });
 
 
-        it('should read all permissions', function(done) {
-            request(app.listen()).get('/api/permissions')
+        it('should read all roles', function(done) {
+            request(app.listen()).get('/api/roles')
                 .send({
                     limit: 10
                 })
+                .set('jwt-token',token)
                 .expect(200)
                 .end(function(err, res) {
                     if (err)
                         throw err;
                     //console.log(res.body);
                     expect(res.body.success).to.be.true;
-                    expect(res.body.data.length).to.equal(permissions.length);
+                    expect(res.body.data.length).to.equal(roles.length);
                     done();
                 });
         });
     });
 
 
-    xdescribe('destroy role', function() {
-        before(function(done) {
-            Permission.destroy({
+    describe('destroy role', function() {
+         before(function(done) {
+            Role.destroy({
                     truncate: true
                 })
                 .then(function() {
-                    Permission.bulkCreate(permissions).then(function() {
+                    Role.bulkCreate(roles).then(function() {
                         done();
                     });
                 })
         });
 
 
-        it('should destroy  permissions', function(done) {
-            request(app.listen()).delete('/api/permissions/' + 1)
+        it('should destroy role', function(done) {
+            request(app.listen()).delete('/api/roles/' + 1)
                 .expect(200)
+                .set('jwt-token',token)
                 .end(function(err, res) {
                     if (err)
                         throw err;
-                    //console.log(res.body);
+                    console.log(res.body);
                     expect(res.body.success).to.be.true;
                     done();
                 });
         });
     });
 
+
+    describe('update roles', function() {
+        before(function(done) {
+            Role.destroy({
+                    truncate: true
+                })
+                .then(function() {
+                    Role.bulkCreate(roles).then(function() {
+                        done();
+                    });
+                });
+        });
+
+        roles.forEach(function(r) {
+            it('should update role', function(done) {
+                request(app.listen()).put('/api/roles/' + r.id)
+                    .set('jwt-token', token)
+                    .send(r)
+                    .expect(200)
+                    .end(function(err, res) {
+                        if (err)
+                            throw err;
+                        //console.log(res.body);
+                        expect(res.body.success).to.be.true;
+                        done();
+                    });
+            });
+        });
+
+
+    });
 
 });

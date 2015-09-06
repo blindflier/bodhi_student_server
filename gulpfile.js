@@ -21,7 +21,6 @@ gulp.task('mocha', function() {
   process.env.PORT=8001;
   
   gulp.src([
-    'modules/tests/prepare.js',
     'modules/**/*.spec.js'
   ], {
     read: false

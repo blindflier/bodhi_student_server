@@ -23,7 +23,11 @@ module.exports = function(app) {
             };
         }
     });
-    helper.crud([]);
+       helper.crud({
+            'default' : ['STUDY_ADMIN'],
+            'read' : [],
+            'readOne' : []
+        });
 
     return router;
 };

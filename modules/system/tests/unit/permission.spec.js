@@ -3,7 +3,7 @@ var app = require('../../../../app');
 var Permission = require('../../models/permission')(app);
 var RolesPermssions = require('../../models/role_permission')(app);
 
-var permissions = require('../fixtures/permission');
+var permissions = require('../fixtures/permissions');
 var expect = require('chai').expect;
 describe('Permission Model', function() {
 

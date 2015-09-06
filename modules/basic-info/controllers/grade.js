@@ -17,7 +17,10 @@ module.exports = function(app) {
             };
         }
     });
-    helper.crud([]);
-
+    helper.crud({
+        'default' : ['BASICINFO_ADMIN'],
+        'read' : [],
+        'readOne' : []
+    });
     return router;
 };

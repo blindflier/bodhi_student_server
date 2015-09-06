@@ -28,7 +28,7 @@ var students=[{
   grade_id: 2,
   state: 0,
 
-  name: 'DDD2',
+  name: 'DDD',
   bud_name: 'E111',
   gender: true,
 
@@ -58,31 +58,13 @@ var students=[{
 },{
   id:4,
   student_number: '00860025201306300113',
-  username: 'class',
-  password: '123456',
-
-  grade_id: 2,
-  state: 0,
-
-  name: 'DDD3',
-  bud_name: 'E1111',
-  gender: true,
-
-  birthday: Date.now() - 365 * 1000 * 3600 * 24 * 19,
-
-  qq: '22223',
-  email: 'fdsgfdg@qq.com',
-  phone: '13952999992'
-},{
-  id:5,
-  student_number: '00861025201306300113',
   username: 'student',
   password: '123456',
 
   grade_id: 2,
   state: 0,
 
-  name: 'DDD4',
+  name: 'DDD1',
   bud_name: 'E1111',
   gender: true,
 

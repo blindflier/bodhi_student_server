@@ -4,9 +4,11 @@ module.exports = function(app) {
     if (app.db.isDefined(model_name))
         return app.db.model(model_name);
 
-    var User = require('./user')(app);
+    var Student = require('../../basic-info/models/student')(app);
     var Permission = require('./permission')(app);
-
+    var Student_Role = require('./student_role')(app);
+    var Role_Permission = require('./role_permission')(app);
+  
     var Role = app.db.define(model_name, {
         name: {
             type: Sequelize.STRING,
@@ -18,29 +20,58 @@ module.exports = function(app) {
         }
     }, {
         classMethods: {
-            setUsers: function(role_id, users) {
-                var self = this;
-                var sql = "insert into users_roles (user_id,role_id) values ";
+            setStudents: function(role_id, students) {
+
+                var sql = "insert into students_roles (student_id,role_id) values ";
                 var val = [];
-                users.forEach(function(u) {
-                    val.push('(' + u.id + ',' + role_id + ')');
+
+                var p = Student_Role.destroy({
+                    'where': {
+                        'role_id': role_id
+                    }
                 });
-                sql = sql + val.join(',');
-                return app.db.query(sql, {
-                    type: Sequelize.QueryTypes.INSERT
-                });
+
+                if (students && students.length > 0) {
+                    students.forEach(function(s) {
+                        val.push('(' + s.id + ',' + role_id + ')');
+                    });
+                    sql = sql + val.join(',');
+                    return p.then(function() {
+                        return app.db.query(sql, {
+                            type: Sequelize.QueryTypes.INSERT
+                        });
+                    });
+                } else
+                    return p;
+
+
+
             },
             setPermissions: function(role_id, permissions) {
                 var self = this;
                 var sql = "insert into roles_permissions (permission_id,role_id) values ";
                 var val = [];
-                permissions.forEach(function(p) {
-                    val.push('(' + p.id + ',' + role_id + ')');
+
+                var p = Role_Permission.destroy({
+                    'where': {
+                        'role_id': role_id
+                    }
                 });
-                sql = sql + val.join(',');
-                return app.db.query(sql, {
-                    type: Sequelize.QueryTypes.INSERT
-                });
+
+                if (permissions && permissions.length > 0) {
+
+                    permissions.forEach(function(p) {
+                        val.push('(' + p.id + ',' + role_id + ')');
+                    });
+                    sql = sql + val.join(',');
+
+                    return p.then(function(err) {
+                        return app.db.query(sql, {
+                            type: Sequelize.QueryTypes.INSERT
+                        });
+                    });
+                } else
+                    return p;
             }
         },
         freezeTableName: true,
@@ -49,11 +80,11 @@ module.exports = function(app) {
 
     });
 
-    Role.belongsToMany(User, {
-        through: 'users_roles'
+    Role.belongsToMany(Student, {
+        through: 'students_roles'
     });
-    User.belongsToMany(Role, {
-        through: 'users_roles'
+    Student.belongsToMany(Role, {
+        through: 'students_roles'
     });
 
     Role.belongsToMany(Permission, {
