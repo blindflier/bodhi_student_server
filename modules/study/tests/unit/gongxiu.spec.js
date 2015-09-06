@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'test';
 var app = require('../../../../app');
 var gongxiu = require('../fixtures/gongxiu');
 
-var GXModel = require('../../models/Gongxiu')(app);
+var GXModel = require('../../models/gongxiu')(app);
 
 
 var expect = require('chai').expect;
