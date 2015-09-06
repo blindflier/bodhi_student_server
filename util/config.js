@@ -7,6 +7,7 @@ var config = {
   common: {
     port: 8000,
     root: rootPath,
+    dblog: true,
     secretKey: '466ee6b4-1f31-11e5-a820-34363bc6488'
   },
   production: {
