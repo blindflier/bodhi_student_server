@@ -6,8 +6,8 @@ var Sequelize = require('sequelize');
 app.config = config;
 app.db = new Sequelize(config.db, {
     underscored: true,
-    //logging: process.NODE_ENV === 'test',
-    pool: process.NODE_ENV !== 'test',
+    logging: process.NODE_ENV != 'production',
+    pool: process.NODE_ENV != 'test',
 });
 app.util = {
     crypto: require('./util/crypto-helper'),
