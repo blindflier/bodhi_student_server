@@ -30,7 +30,6 @@ describe('Course Controller', function() {
                 return Course.sync({
                     force: true
                 });
-
             })
             .then(function() {
                 return require('../../../system/tests/fixtures/prepare_permission')();

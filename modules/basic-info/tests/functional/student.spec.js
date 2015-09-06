@@ -260,7 +260,7 @@ describe('Student Controller', function() {
 
         it('should update student email', function(done) {
             var id = s1.id;
-            var new_email = '333334@qq.com';
+            var new_email = 'abcde@qq.com';
             request(app.listen()).put('/api/students/' + id)
                 .send({
                     email: new_email

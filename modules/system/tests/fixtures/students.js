@@ -28,8 +28,8 @@ var students=[{
   grade_id: 2,
   state: 0,
 
-  name: 'DDD',
-  bud_name: 'E111',
+  name: 'DDD2',
+  bud_name: 'E2222',
   gender: true,
 
   birthday: Date.now() - 365 * 1000 * 3600 * 24 * 19,
@@ -46,8 +46,8 @@ var students=[{
   grade_id: 2,
   state: 0,
 
-  name: 'DDD1',
-  bud_name: 'E1111',
+  name: 'DDD3',
+  bud_name: 'E3333',
   gender: true,
 
   birthday: Date.now() - 365 * 1000 * 3600 * 24 * 19,
@@ -64,8 +64,8 @@ var students=[{
   grade_id: 2,
   state: 0,
 
-  name: 'DDD1',
-  bud_name: 'E1111',
+  name: 'DDD4',
+  bud_name: 'E4444',
   gender: true,
 
   birthday: Date.now() - 365 * 1000 * 3600 * 24 * 19,

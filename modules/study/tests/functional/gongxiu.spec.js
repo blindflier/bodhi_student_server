@@ -114,7 +114,7 @@ describe('Gongxiu Controller', function() {
         it('should set gongxiu checkin', function(done) {
             request(app.listen()).post('/api/gongxiu/1/checkin')
                 .expect(200)
-                .send(checkins)
+                .send({'checkins': checkins})
                 .set('jwt-token', token)
                 .end(function(err, res) {
                     if (err)

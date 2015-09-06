@@ -7,7 +7,7 @@ var valid_students = [{
   grade_id: 1,
   state: 0,
 
-  name: 'AAA',
+  name: 'infoAAAA',
   bud_name: 'B111',
   gender: true,
 
@@ -25,8 +25,8 @@ var valid_students = [{
   grade_id: 2,
   state: 0,
 
-  name: 'DDD',
-  bud_name: 'E111',
+  name: 'infoBBBB',
+  bud_name: 'E22222',
   gender: true,
 
   birthday: Date.now() - 365 * 1000 * 3600 * 24 * 19,
