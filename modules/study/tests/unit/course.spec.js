@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'test';
 var app = require('../../../../app');
 var courses = require('../fixtures/courses');
 
-var Course = require('../../models/Course')(app);
+var Course = require('../../models/course')(app);
 
 
 var expect = require('chai').expect;
