@@ -10,7 +10,7 @@ var expect = require('chai').expect;
 var Student = require('../../../basic-info/models/student')(app);
 var students = require('../fixtures/students');
 
-var Role = require('../../models/Role')(app);
+var Role = require('../../models/role')(app);
 var roles = require('../fixtures/roles');
 
 
