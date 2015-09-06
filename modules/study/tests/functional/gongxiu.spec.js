@@ -34,6 +34,12 @@ describe('Gongxiu Controller', function() {
                 });
 
             })
+             .then(function() {
+                return Checkin.sync({
+                    force: true
+                });
+
+            })
             .then(function() {
                 return require('../../../system/tests/fixtures/prepare_permission')();
             })
