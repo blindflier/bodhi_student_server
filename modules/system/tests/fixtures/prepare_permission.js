@@ -4,7 +4,7 @@ var app = require('../../../../app');
 
 var Student = require('../../../basic-info/models/student')(app);
 
-var Role = require('../../models/Role')(app);
+var Role = require('../../models/role')(app);
 var Permission = require('../../models/permission')(app);
 var StudentsRoles = require('../../models/student_role')(app);
 var RolesPermissions = require('../../models/role_permission')(app);
