@@ -11,7 +11,7 @@ module.exports = function(app) {
 
     var Checkin = app.db.define(model_name, {
         category: {
-            type: Sequelize.ENUM('现场','网络','心得','补课','公差','旷课'),
+            type: Sequelize.ENUM('现场','异地网络','公差','网络','心得','旷课','补课'),
             allowNull: false
         },
         memo: { //备注
