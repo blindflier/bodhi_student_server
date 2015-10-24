@@ -46,6 +46,12 @@ module.exports = function(app) {
         }
     });
     
+    helper.on('readOne',function(options, data){
+          options.include = [{
+            model: Grade,
+            attributes: ['id', 'city', 'genre', 'seq']
+        }];
+    });
     helper.on('afterReadOne',function(s){
          s.sanitize();
     });
